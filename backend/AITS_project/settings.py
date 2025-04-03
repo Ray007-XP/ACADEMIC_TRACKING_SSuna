@@ -86,19 +86,17 @@ WSGI_APPLICATION = 'AITS_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        **dj_database_url.config(
-            conn_max_age=600,
-            conn_health_checks=True,
-            ssl_require=True,
-            default='sqlite:////path/to/persistent/db.sqlite3'
-        ),
-        'DISABLE_SERVER_SIDE_CURSORS': True,
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('PGDATABASE', 'railway'),  # Database name
+        'USER': os.getenv('PGUSER', 'postgres'),     # Database user
+        'PASSWORD': os.getenv('PGPASSWORD', ''),     # Database password
+        'HOST': os.getenv('PGHOST', 'localhost'),    # Database host
+        'PORT': os.getenv('PGPORT', '5432'),         # Database port
+        'CONN_MAX_AGE': 600,                         # Connection persistence
+        'DISABLE_SERVER_SIDE_CURSORS': True,         # For better performance
         'OPTIONS': {
-            'connect_timeout': 5,
-            'keepalives': 1,
-            'keepalives_idle': 30,
-            'keepalives_interval': 10,
-            'keepalives_count': 5
+            'connect_timeout': 5,                    # 5 second timeout
+            'sslmode': 'require'                     # SSL required
         }
     }
 }
