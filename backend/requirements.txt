@@ -7,6 +7,7 @@ dj_database_url==2.3.0
 
 # Database
 #psycopg2-binary==2.9.9
+psycopg
 
 # Authentication & Security
 djangorestframework-simplejwt==5.3.1
