@@ -83,15 +83,25 @@ WSGI_APPLICATION = 'AITS_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
 DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True,
-        default='sqlite:////path/to/persistent/db.sqlite3'
-    )
+    'default': {
+        **dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True,
+            default='sqlite:////path/to/persistent/db.sqlite3'
+        ),
+        'DISABLE_SERVER_SIDE_CURSORS': True,
+        'OPTIONS': {
+            'connect_timeout': 5,
+            'keepalives': 1,
+            'keepalives_idle': 30,
+            'keepalives_interval': 10,
+            'keepalives_count': 5
+        }
+    }
 }
-DATABASES['default']['DISABLE_SERVER_SIDE_CURSORS'] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
